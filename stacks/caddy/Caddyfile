@@ -1,0 +1,4 @@
+{$CADDY_ENTRY_1_IP} {
+    tls {$CADDY_ENTRY_1_TLS}
+    reverse_proxy {$CADDY_ENTRY_1_APP}:{$CADDY_ENTRY_1_PORT}
+}
