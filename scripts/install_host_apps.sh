@@ -1,5 +1,4 @@
 #!/usr/bin/env bash
-# We run this ONCE, over SSH, on a fresh Debian/Ubuntu VPS/setup.
 # Use sudo.
 set -euo pipefail
 
@@ -39,10 +38,3 @@ echo "deb [signed-by=/etc/apt/keyrings/syncthing-archive-keyring.gpg] https://ap
 apt-get update
 apt-get install -y syncthing
 systemctl enable --now syncthing@deploy.service
-
-echo "== Configuring firewall (ufw) — public ports only =="
-ufw allow OpenSSH
-ufw allow 80/tcp
-ufw allow 443/tcp
-ufw allow 41641/udp   # Tailscale's direct-connection port
-ufw --force enable
