@@ -11,16 +11,23 @@ services:
     env_file:
       - .env
     networks:
-      - proxy
+      - apps_net
+      - proxy_net
+      - tunnel_net
 
   whoami: 
     image: traefik/whoami
     networks:
-      - proxy
+      - apps_net
 
 networks:
-  proxy:
-    name: proxy
+  apps_net:
+    name: apps_net
+    external: true
+  
+  tunnel_net:
+    name: tunnel_net
+    external: true
 
 volumes:
   caddy_data:
