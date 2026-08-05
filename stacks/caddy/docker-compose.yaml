@@ -12,7 +12,6 @@ services:
       - .env
     networks:
       - apps_net
-      - proxy_net
       - tunnel_net
 
   whoami: 

@@ -4,6 +4,9 @@ Reproducible config for my Home Lab VPS/Setup. Git lives on my local machine onl
 and the server never authenticates to GitHub. Instead, this whole folder is 
 mirrored to the server over Syncthing, privately, through Tailscale.
 
+## Included
+
+
 ## Setup order
 
 ### 1. User
