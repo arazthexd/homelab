@@ -72,6 +72,7 @@ if [[ "$REPO_ROOT" != "$TARGET_DIR" ]]; then
     mv "$REPO_ROOT" "$TARGET_DIR"
     chown -R "$MAIN_USER":"$MAIN_USER" "$TARGET_DIR"
     REPO_ROOT="$TARGET_DIR"
+    SCRIPT_DIR="$REPO_ROOT/scripts"
     echo "Repo now lives at $REPO_ROOT — continuing from there."
 else
     chown -R "$MAIN_USER":"$MAIN_USER" "$REPO_ROOT"
