@@ -2,6 +2,9 @@
 # Use sudo.
 set -euo pipefail
 
+source "../functions.sh"
+load_env
+
 if [[ -z "${MAIN_USER:-}" ]]; then
     echo "FATAL: MAIN_USER is not set. Source your .env file or run the user setup." >&2
     exit 2

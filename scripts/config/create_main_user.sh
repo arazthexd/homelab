@@ -2,12 +2,15 @@
 # Run as root (sudo).
 set -euo pipefail
 
+source "../functions.sh"
+load_env
+
 # Ensure MAIN_USER is set, prompt if not
 if [[ -z "${MAIN_USER:-}" ]]; then
     read -rp "Enter username for the main user: " MAIN_USER
 
     echo "== Updating .env file =="
-    ENV_FILE="$(dirname "$0")/.env"
+    ENV_FILE="$(find_repo_root)/.env"
     if grep -q '^MAIN_USER=$' "$ENV_FILE"; then
         # Line exists but is empty – replace it with the resolved value
         sed -i "s/^MAIN_USER=.*/MAIN_USER=\"$MAIN_USER\"/" "$ENV_FILE"

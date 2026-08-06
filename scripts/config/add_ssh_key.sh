@@ -1,6 +1,9 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+source "../functions.sh"
+load_env
+
 if [[ $# -ne 1 ]]; then
     echo "Usage: $0 <username>"
     exit 1

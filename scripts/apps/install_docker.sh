@@ -2,6 +2,9 @@
 # Use sudo.
 set -euo pipefail
 
+source "../functions.sh"
+load_env
+
 if [[ -z "${MAIN_USER:-}" ]]; then
     echo "FATAL: MAIN_USER is not set. Source your .env file or run the user setup." >&2
     exit 2
@@ -19,4 +22,10 @@ apt-get update
 apt-get install -y docker-ce docker-ce-cli containerd.io docker-buildx-plugin docker-compose-plugin
 usermod -aG docker "$MAIN_USER"
 echo "Done!"
+echo
+
+echo "== Setting up docker external networks =="
+docker network create tunnel_net
+docker network create apps_net
+echo "Done! Created tunnel_net and apps_net"
 echo

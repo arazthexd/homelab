@@ -2,7 +2,9 @@
 # Use sudo.
 set -euo pipefail
 
-bash scripts/update/update_system.sh
+source "../functions.sh"
+load_env
+
 bash scripts/apps/install_base_tools.sh
 bash scripts/apps/install_docker.sh
 bash scripts/apps/install_tailscale.sh
