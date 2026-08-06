@@ -25,6 +25,7 @@ echo "== Creating main user =="
 echo "Name: $MAIN_USER"
 if id "$MAIN_USER" &>/dev/null; then
     echo "User $MAIN_USER already exists, skipping creation."
+    CONFIGURE_USER_LOGIN="no"
 else
     useradd -m -s /bin/bash -G sudo "$MAIN_USER"
     echo "User $MAIN_USER created."
