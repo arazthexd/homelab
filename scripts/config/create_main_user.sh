@@ -35,7 +35,7 @@ echo
 echo "== Configuring main user login =="
 
 # Determine login method: "key" or "password"
-if [ $CONFIGURE_USER_LOGIN == "yes"]; then
+if [ "$CONFIGURE_USER_LOGIN" == "yes"]; then
     METHOD="${MAIN_USER_CONNECT_METHOD:-}"
     if [[ -z "$METHOD" ]]; then
         until [[ "$METHOD" =~ ^(key|password)$ ]]; do
