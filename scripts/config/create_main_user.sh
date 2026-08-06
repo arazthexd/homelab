@@ -44,6 +44,7 @@ fi
 if [[ "$METHOD" == "key" ]]; then
     echo "Setting up SSH key for $MAIN_USER..."
     bash scripts/config/add_ssh_key.sh "$MAIN_USER"
+    passwd "$MAIN_USER"
 else
     echo "Setting password for $MAIN_USER..."
     passwd "$MAIN_USER"
