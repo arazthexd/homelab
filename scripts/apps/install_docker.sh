@@ -2,8 +2,9 @@
 # Use sudo.
 set -euo pipefail
 
-source "../functions.sh"
-load_env
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="{$SCRIPT_DIR}/../.."
+source "{$ROOT_DIR}/.env"
 
 if [[ -z "${MAIN_USER:-}" ]]; then
     echo "FATAL: MAIN_USER is not set. Source your .env file or run the user setup." >&2
@@ -25,7 +26,7 @@ echo "Done!"
 echo
 
 echo "== Setting up docker external networks =="
-docker network create tunnel_net
-docker network create apps_net
+docker network inspect tunnel_net >/dev/null 2>&1 || docker network create tunnel_net
+docker network inspect apps_net   >/dev/null 2>&1 || docker network create apps_net
 echo "Done! Created tunnel_net and apps_net"
 echo

@@ -2,10 +2,11 @@
 # Use sudo.
 set -euo pipefail
 
-source "../functions.sh"
-load_env
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="{$SCRIPT_DIR}/../.."
+source "{$ROOT_DIR}/.env"
 
-bash scripts/apps/install_base_tools.sh
-bash scripts/apps/install_docker.sh
-bash scripts/apps/install_tailscale.sh
-bash scripts/apps/install_syncthing.sh
+bash $SCRIPT_DIR/install_base_tools.sh
+bash $SCRIPT_DIR/install_docker.sh
+bash $SCRIPT_DIR/install_tailscale.sh
+bash $SCRIPT_DIR/install_syncthing.sh

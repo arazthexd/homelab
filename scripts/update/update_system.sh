@@ -2,8 +2,9 @@
 # Use sudo.
 set -euo pipefail
 
-source "../functions.sh"
-load_env
+SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
+ROOT_DIR="{$SCRIPT_DIR}/../.."
+source "{$ROOT_DIR}/.env"
 
 echo "== Updating system =="
 apt-get update
