@@ -37,7 +37,7 @@ for arg in "$@"; do
     esac
 done
 
-log() { echo; echo "== $* =="; }
+log() { echo; echo "===== $* ====="; }
 
 log "Updating package lists"
 apt-get update

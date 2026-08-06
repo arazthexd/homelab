@@ -28,26 +28,29 @@ if id "$MAIN_USER" &>/dev/null; then
 else
     useradd -m -s /bin/bash -G sudo "$MAIN_USER"
     echo "User $MAIN_USER created."
+    CONFIGURE_USER_LOGIN="yes"
 fi
 echo
 
 echo "== Configuring main user login =="
 
 # Determine login method: "key" or "password"
-METHOD="${MAIN_USER_CONNECT_METHOD:-}"
-if [[ -z "$METHOD" ]]; then
-    until [[ "$METHOD" =~ ^(key|password)$ ]]; do
-        read -rp "Login method (key/password): " METHOD
-    done
-fi
+if [ $CONFIGURE_USER_LOGIN == "yes"]; then
+    METHOD="${MAIN_USER_CONNECT_METHOD:-}"
+    if [[ -z "$METHOD" ]]; then
+        until [[ "$METHOD" =~ ^(key|password)$ ]]; do
+            read -rp "Login method (key/password): " METHOD
+        done
+    fi
 
-if [[ "$METHOD" == "key" ]]; then
-    echo "Setting up SSH key for $MAIN_USER..."
-    bash scripts/config/add_ssh_key.sh "$MAIN_USER"
-    passwd "$MAIN_USER"
-else
-    echo "Setting password for $MAIN_USER..."
-    passwd "$MAIN_USER"
+    if [[ "$METHOD" == "key" ]]; then
+        echo "Setting up SSH key for $MAIN_USER..."
+        bash scripts/config/add_ssh_key.sh "$MAIN_USER"
+        passwd "$MAIN_USER"
+    else
+        echo "Setting password for $MAIN_USER..."
+        passwd "$MAIN_USER"
+    fi
 fi
 
 echo
