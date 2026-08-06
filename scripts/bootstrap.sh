@@ -69,7 +69,7 @@ if [[ "$REPO_ROOT" != "$TARGET_DIR" ]]; then
         echo "FATAL: $TARGET_DIR already exists — move or remove it, then re-run." >&2
         exit 1
     fi
-    cp "$REPO_ROOT" "$TARGET_DIR"
+    cp -r "$REPO_ROOT" "$TARGET_DIR"
     chown -R "$MAIN_USER":"$MAIN_USER" "$TARGET_DIR"
     REPO_ROOT="$TARGET_DIR"
     SCRIPT_DIR="$REPO_ROOT/scripts"
