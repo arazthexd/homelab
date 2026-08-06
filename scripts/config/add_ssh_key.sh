@@ -2,8 +2,8 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROOT_DIR="{$SCRIPT_DIR}/../.."
-source "{$ROOT_DIR}/.env"
+ROOT_DIR="$SCRIPT_DIR/../.."
+source "$ROOT_DIR/.env"
 
 if [[ $# -ne 1 ]]; then
     echo "Usage: $0 <username>"

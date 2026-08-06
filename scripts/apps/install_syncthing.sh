@@ -3,8 +3,8 @@
 set -euo pipefail
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
-ROOT_DIR="{$SCRIPT_DIR}/../.."
-source "{$ROOT_DIR}/.env"
+ROOT_DIR="$SCRIPT_DIR/../.."
+source "$ROOT_DIR/.env"
 
 if [[ -z "${MAIN_USER:-}" ]]; then
     echo "FATAL: MAIN_USER is not set. Source your .env file or run the user setup." >&2
