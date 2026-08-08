@@ -31,6 +31,11 @@ log "Updating package lists"
 apt-get update
 
 cd "$REPO_ROOT"
+# Ensure .env exists, exit with error if it doesn't
+if [ ! -f .env ]; then
+  echo "Error: .env file does not exist. Please create one from .env.example before running this script." >&2
+  exit 1
+fi
 source .env
 
 # ---------------------------------------------------------------------------
