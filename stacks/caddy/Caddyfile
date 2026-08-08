@@ -1,3 +1,0 @@
-{$CADDY_WHOAMI_DOMAIN} {
-	reverse_proxy whoami:80
-}

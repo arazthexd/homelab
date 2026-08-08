@@ -1,0 +1,22 @@
+services:
+  caddy:
+    image: lucaslorentz/caddy-docker-proxy:ci-alpine
+    container_name: caddy
+    restart: unless-stopped
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock:ro
+      - caddy_data:/data
+    networks:
+      - apps_net
+      - tunnel_net
+
+networks:
+  apps_net:
+    name: apps_net
+    external: true
+  tunnel_net:
+    name: tunnel_net
+    external: true
+
+volumes:
+  caddy_data:
