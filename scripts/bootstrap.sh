@@ -5,17 +5,13 @@
 #   create the main user -> relocate the repo into their home -> install
 #   base tools/Docker/Tailscale/Syncthing -> firewall -> swap.
 #
-# SSH hardening is opt-in via --harden-ssh and runs last, since it should
-# only happen after confirmation that the main user can actually log in.
-#
 # Prerequisite (can't be automated — there's no repo to run this from until
 # it's done): as root on the fresh box,
 #   apt-get update && apt-get install -y git
 #   git clone https://github.com/arazthexd/homelab.git && cd homelab
 #
 # Usage:
-#   sudo bash scripts/bootstrap.sh                # everything except SSH hardening
-#   sudo bash scripts/bootstrap.sh --harden-ssh    # also hardens SSH at the end
+#   sudo bash scripts/bootstrap.sh
 set -euo pipefail
 
 # ---------------------------------------------------------------------------
@@ -28,14 +24,6 @@ fi
 
 SCRIPT_DIR="$(cd "$(dirname "${BASH_SOURCE[0]}")" && pwd)"
 REPO_ROOT="$(cd "$SCRIPT_DIR/.." && pwd)"
-
-HARDEN_SSH=false
-for arg in "$@"; do
-    case "$arg" in
-        --harden-ssh) HARDEN_SSH=true ;;
-        *) echo "Unknown argument: $arg" >&2; exit 1 ;;
-    esac
-done
 
 log() { echo; echo "===== $* ====="; }
 
@@ -128,34 +116,6 @@ else
 fi
 
 # ---------------------------------------------------------------------------
-# 7. SSH hardening — opt-in, last, gated behind an explicit confirmation
-# ---------------------------------------------------------------------------
-if $HARDEN_SSH; then
-    log "Hardening SSH (--harden-ssh was passed)"
-    read -rp "Have you confirmed you can log in as '${MAIN_USER}' in a SEPARATE session right now? (yes/no): " CONFIRM
-    if [[ "$CONFIRM" != "yes" ]]; then
-        echo "Skipping SSH hardening — verify access first, then re-run with --harden-ssh."
-    else
-        apt-get install -y fail2ban unattended-upgrades
-        systemctl enable --now fail2ban
-        dpkg-reconfigure -f noninteractive unattended-upgrades
-
-        SSHD_CONFIG=/etc/ssh/sshd_config
-        sed -i \
-            -e 's/^#\?PasswordAuthentication.*/PasswordAuthentication no/' \
-            -e 's/^#\?PermitRootLogin.*/PermitRootLogin no/' \
-            "$SSHD_CONFIG"
-        systemctl restart ssh
-        echo "SSH hardened: password auth and root login are now disabled."
-        echo "(Your current root session stays open — this only affects new connections.)"
-    fi
-else
-    echo
-    echo "Skipping SSH hardening (pass --harden-ssh to enable it, once you've"
-    echo "confirmed the '${MAIN_USER}' login works in a separate session)."
-fi
-
-# ---------------------------------------------------------------------------
 log "Bootstrap complete"
 cat <<EOF
 Repo location: $REPO_ROOT
@@ -166,5 +126,5 @@ Next steps:
      (if it complains about permissions, log out and back in once more -
      group membership only refreshes on a fresh login)
   3. If Tailscale wasn't joined automatically above, run: sudo tailscale up
-  4. Once all of that checks out, re-run this script with --harden-ssh
+  4. Once all of that checks out, run the harden_ssh.sh for better security
 EOF
